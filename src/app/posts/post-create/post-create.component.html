@@ -1,12 +1,19 @@
-<p>This is the post-crest component!</p>
-<!-- The value property can be bound to variable that we define -->
-<!-- the # symbol used to create a reference, which can be passed in to grab the property -->
-<!-- We can get 2 way binding using nGmodel, ust be declared  in the main modules file-->
-<textarea [(ngModel)]="enteredValue"></textarea>
-<br>
-<!-- We can haver the event listener function here on the button class -->
-<button (click)="onAddPost()">Save Post</button>
+<mat-card>
+    <mat-form-field>
+        <p>This is the post-create component!</p>
+        <!-- The value property can be bound to variable that we define -->
+        <!-- the # symbol used to create a reference, which can be passed in to grab the property -->
+        <!-- We can get 2 way binding using nGmodel, ust be declared  in the main modules file-->
+        <textarea  rows="6" matInput [(ngModel)]="enteredValue"></textarea>
+    </mat-form-field>
+    <!-- We can haver the event listener function here on the button class -->
+    <button mat-raised-button color="primary" (click)="onAddPost()">Save Post</button>
+</mat-card>
+
 <hr>
+
 <!-- The new post will be displayed here 
 Double brackets are used to bind the varaible from the javascript logic-->
-<p>{{newPost}}</p>
+<mat-card>
+    <p>{{newPost}}</p>
+</mat-card>
