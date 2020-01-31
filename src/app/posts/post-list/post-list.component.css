@@ -1,0 +1,6 @@
+/* Host is a special elemnent that targets the elemnt itself*/
+/* must also add the block element */
+:host {
+    display: block;
+    margin-top: 1rem;
+}
