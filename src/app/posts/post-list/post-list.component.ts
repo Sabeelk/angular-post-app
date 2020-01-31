@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+// We want this to b e the input for the event so  import input
 
 @Component({
   selector: 'app-post-list',
@@ -6,10 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./post-list.component.css']
 })
 export class PostListComponent implements OnInit {
-  posts = [
-    {title: 'post 1', content: 'My name is Sabeel Kazi'},
-    {title: 'post 2', content: 'My name is Sandell Kazi'},
-    {title: 'post 3', content: 'My name is Samwel Tarley'},
+  // Can only bind input from the parent component
+  @Input() posts = [
+
   ];
 
   constructor() { }

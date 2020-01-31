@@ -4,3 +4,7 @@
     display: block;
     margin-top: 1rem;
 }
+/* tag for aligining text if there are no posts */
+.info-text {
+    text-align: center;
+}

@@ -3,8 +3,9 @@
 
 <main>
 <!-- We can hook our component in this general html file -->
-<app-post-create></app-post-create>
-<app-post-list></app-post-list>
+<!-- Here we connet the output with the push post function, event connecting-->
+<app-post-create (postCreated)="onAddPost($event)"></app-post-create>
+<app-post-list [posts]="storedPosts"></app-post-list>
 </main>
 
 <router-outlet></router-outlet>
