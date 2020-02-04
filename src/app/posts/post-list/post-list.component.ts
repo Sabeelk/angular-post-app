@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Post } from '../post.model';
 // We want this to b e the input for the event so  import input
 
 @Component({
@@ -8,7 +9,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class PostListComponent implements OnInit {
   // Can only bind input from the parent component
-  @Input() posts = [
+  @Input() posts: Post[] = [
 
   ];
 

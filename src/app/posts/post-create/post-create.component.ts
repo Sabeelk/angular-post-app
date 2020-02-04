@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Output,  OnInit } from '@angular/core';
+import { Post } from '../post.model';
 // Remember that we had the wrong event emitter above
 // We need bot the EventEmitter asnd the Output to be able to use them in this component
 
@@ -11,20 +12,28 @@ export class PostCreateComponent implements OnInit {
   postTitle = '';
   postContent = '';
   // Here we will create an event emitter, the type must be declafred as @Output
-  @Output() postCreated = new EventEmitter();
+  @Output() postCreated = new EventEmitter<Post>();
 
   constructor() {
   }
 
   // the button logic will be run by this post
-  onAddPost() {
+  // The form is passed and now angular is handling the post logic
+  onAddPost(form) {
+    // We check for invalidity before submitting the form
+    if (form.invalid) {
+      return;
+    }
     const post = {
-      title: this.postTitle,
-      content: this.postContent
+      title: form.value.postTitle,
+      content: form.value.postContent
     };
-    const str = 'hello';
     // On button press, the event will emit the post out
     this.postCreated.emit(post);
+
+    // Clear all values
+    // this.postTitle = '';
+    // this.postContent = '';
 
   }
 
