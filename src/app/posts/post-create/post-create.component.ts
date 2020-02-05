@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output,  OnInit } from '@angular/core';
 import { Post } from '../post.model';
+import { PostService } from '../post.service';
 // Remember that we had the wrong event emitter above
 // We need bot the EventEmitter asnd the Output to be able to use them in this component
 
@@ -14,8 +15,7 @@ export class PostCreateComponent implements OnInit {
   // Here we will create an event emitter, the type must be declafred as @Output
   @Output() postCreated = new EventEmitter<Post>();
 
-  constructor() {
-  }
+  constructor(public postService: PostService) {}
 
   // the button logic will be run by this post
   // The form is passed and now angular is handling the post logic
