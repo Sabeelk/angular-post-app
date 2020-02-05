@@ -9,14 +9,5 @@ import { Post } from './posts/post.model';
 })
 export class AppComponent {
   title = 'angApp';
-
-  // We need an array to hold the posts once they are made
-  // They then need to be passed to the post-list component
-  storedPosts = [];
-  onAddPost(post) {
-    // Take this received from the event Output and push the post object to posts
-    // The post Array will be given to the post list component to display
-    this.storedPosts.push(post);
-  }
 }
 

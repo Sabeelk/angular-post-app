@@ -1,5 +1,4 @@
-import { Component, EventEmitter, Output,  OnInit } from '@angular/core';
-import { Post } from '../post.model';
+import { Component, OnInit } from '@angular/core';
 import { PostService } from '../post.service';
 // Remember that we had the wrong event emitter above
 // We need bot the EventEmitter asnd the Output to be able to use them in this component
@@ -12,8 +11,6 @@ import { PostService } from '../post.service';
 export class PostCreateComponent implements OnInit {
   postTitle = '';
   postContent = '';
-  // Here we will create an event emitter, the type must be declafred as @Output
-  @Output() postCreated = new EventEmitter<Post>();
 
   constructor(public postService: PostService) {}
 
@@ -24,16 +21,13 @@ export class PostCreateComponent implements OnInit {
     if (form.invalid) {
       return;
     }
-    const post = {
-      title: form.value.postTitle,
-      content: form.value.postContent
-    };
-    // On button press, the event will emit the post out
-    this.postCreated.emit(post);
 
-    // Clear all values
-    // this.postTitle = '';
-    // this.postContent = '';
+    // On button press, the event will emit the post out
+    this.postService.addPost(form.value.postTitle, form.value.postContent);
+
+    // Clear all values so texbox is clear on submission
+    // form.value.postTitle = '';
+    // form.value.postContent = '';
 
   }
 
