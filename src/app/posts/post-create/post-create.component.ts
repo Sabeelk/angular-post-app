@@ -26,9 +26,8 @@ export class PostCreateComponent implements OnInit {
     this.postService.addPost(form.value.postTitle, form.value.postContent);
 
     // Clear all values so texbox is clear on submission
-    // form.value.postTitle = '';
-    // form.value.postContent = '';
-
+    // Using the resetform is more efficent
+    form.resetForm();
   }
 
   ngOnInit() {

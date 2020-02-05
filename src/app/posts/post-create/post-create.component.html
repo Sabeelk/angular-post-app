@@ -2,17 +2,17 @@
     <!-- postForm allows us to have access to the form object -->
     <form (submit)="onAddPost(postForm)" #postForm="ngForm">
     <mat-form-field>
-        <h3>Title</h3>
         <!-- We can also add mimnlength to force a length for the textarea -->
-        <textarea  rows="1" matInput name="postTitle" ngModel required #postTitle="ngModel"></textarea>
+        <textarea  rows="1" matInput name="postTitle" ngModel required #postTitle="ngModel"
+            placeholder = "Post Title"></textarea>
         <mat-error *ngIf="postTitle.invalid"> Title cannot be empty </mat-error> 
     </mat-form-field>
     <mat-form-field>
-        <h3>Content</h3>
         <!-- The value property can be bound to variable that we define -->
         <!-- the # symbol used to create a reference, which can be passed in to grab the property -->
         <!-- We can get 2 way binding using nGmodel, ust be declared  in the main modules file-->
-        <textarea  rows="3" matInput ngModel name="postContent" required #postContent="ngModel"></textarea>
+        <textarea  rows="3" matInput ngModel name="postContent" required #postContent="ngModel"
+        placeholder = "Post Title"></textarea>
         <mat-error *ngIf="postTitle.invalid"> Content cannot be empty </mat-error>
     </mat-form-field>
     <!-- We can haver the event listener function here on the button class -->
