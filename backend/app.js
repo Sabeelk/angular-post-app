@@ -7,31 +7,33 @@ const app = express();
 
 // This lets us parse data from a request, package needs to be installed
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ entended: false }));
 
 // Middleware for allowing access to our resources
 // There are other types of headers other than Acc-Cont-Allow-Or
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Header", 
-        "Origin, X-Requested-With, Content-Type, Accept");
-    res.setHeader("Access-Control-Allow-Methods", 
-        "GET, POST, PATCH, DELETE, OPTIONS");
+    res.setHeader(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept"
+    );
+    res.setHeader(
+      "Access-Control-Allow-Methods",
+      "GET, POST, PATCH, DELETE, OPTIONS"
+    );
     next();
-});
+  });
 
-//This will handle 
-app.post((res, res, next) => {
+//This will handle adding a post, it will simply display it for now
+app.post('/api/posts', (req, res, next) => {
         const post = req.body;
         console.log(post);
+        //This is the status we send back to make sure the request doesn't hang
         res.status(201).json({
-            message: "post added successfully";
+            message: "post added successfully"
         });
-})
+});
 
-// The middleware begins here
-// uses middleware function on app an incoming request
-// a function is says what to do for incoming request, we can add other arguements
+// function says what to do for incoming request, we can add other arguements
 // Now api/posts is how we will reach our code
 app.use('/api/posts',(req, res, next) => {
     const posts = [
@@ -44,7 +46,6 @@ app.use('/api/posts',(req, res, next) => {
         posts: posts
     });
 });
-
 
 // This will export all the middelware for our app
 module.exports = app;

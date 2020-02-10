@@ -34,10 +34,15 @@ export class PostService {
 
     // This function is called to add posts to the posts array
     addPost(addTitle: string, addContent: string) {
-        const tempPost: Post = { id: null, title: addTitle, content: addContent };
-        this.posts.push(tempPost);
-        this.postsUpdated.next(this.posts);
+        const tempPost: Post = { id: null, title: addTitle, content: addContent};
+
+        // sending a post request so use .post
+        // send the data in the post parameters
+        this.http.post<{message: string}>('http://localhost:3000/api/posts', tempPost)
+            .subscribe((responseData) => {
+                console.log(responseData.message);
+                this.posts.push(tempPost);
+                this.postsUpdated.next([...this.posts]);
+            });
     }
-
-
 }
