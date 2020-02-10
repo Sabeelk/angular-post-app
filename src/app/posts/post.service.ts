@@ -1,5 +1,6 @@
 import { Post } from './post.model';
 import { Subject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 // Subject is used for event emitting, but more general. We want to use it for getPosts
 
 export class PostService {
@@ -8,11 +9,12 @@ export class PostService {
     // This variable is used to send posts array out, an event emitter
     private postsUpdated = new Subject<Post[]>();
 
+    // We must inject the Http CLient in order ot use it in the service
+    constructor(private http: HttpClient) {}
+
     // This function lets us retrieve posts
     getPosts() {
-        // This is an advanced javascript feature
-        // We use the brackets and the ... to make a copy,
-        // not the reference of the array in memory
+        // we want to rework this serve request to sedn a request to the server
         return [...this.posts];
     }
 
