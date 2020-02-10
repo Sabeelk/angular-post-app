@@ -1,8 +1,33 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 
 // this creates an express app, will handle a route
 // app is used as a listener for requests coming into nodeJS
 const app = express();
+
+// This lets us parse data from a request, package needs to be installed
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ entended: false }));
+
+// Middleware for allowing access to our resources
+// There are other types of headers other than Acc-Cont-Allow-Or
+app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Header", 
+        "Origin, X-Requested-With, Content-Type, Accept");
+    res.setHeader("Access-Control-Allow-Methods", 
+        "GET, POST, PATCH, DELETE, OPTIONS");
+    next();
+});
+
+//This will handle 
+app.post((res, res, next) => {
+        const post = req.body;
+        console.log(post);
+        res.status(201).json({
+            message: "post added successfully";
+        });
+})
 
 // The middleware begins here
 // uses middleware function on app an incoming request

@@ -20,8 +20,8 @@ export class PostListComponent implements OnInit, OnDestroy {
   constructor(public postService: PostService) {}
 
   ngOnInit() {
-    // postService is now some invisible member variable and need to be called with this
-    this.posts = this.postService.getPosts();
+    // postService is now some invisible member variable and need to be called inititally
+    this.postService.getPosts();
     // This subscribe function takes a function argument that gets executed whenever new data is emitted
     // subscribe takes the posts as an argument because it recieves the posts array from the service in the next()
     // subscriptions we create should be destroyed when we the component is not live
