@@ -1,6 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
+// use capital starting letter for the schema
+// The model actually just gives use a contructor to make a new object
+const Post = require('./models/post');
+
 // this creates an express app, will handle a route
 // app is used as a listener for requests coming into nodeJS
 const app = express();
@@ -25,7 +29,11 @@ app.use((req, res, next) => {
 
 //This will handle adding a post, it will simply display it for now
 app.post('/api/posts', (req, res, next) => {
-        const post = req.body;
+        // we first make the new Post object from the mongoose schema
+        const post = new Post({
+            title: req.body.title,
+            content: req.body.content
+        });
         console.log(post);
         //This is the status we send back to make sure the request doesn't hang
         res.status(201).json({
@@ -35,7 +43,7 @@ app.post('/api/posts', (req, res, next) => {
 
 // function says what to do for incoming request, we can add other arguements
 // Now api/posts is how we will reach our code
-app.use('/api/posts',(req, res, next) => {
+app.get('/api/posts',(req, res, next) => {
     const posts = [
         { id: '121', title: 'hello', content: 'this is a posts'},
         { id: '122', title: 'goodbye', content: 'this is a posts'},
