@@ -2,7 +2,9 @@ import { Post } from './post.model';
 import { Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { map } from 'rxjs/operators';
 // Subject is used for event emitting, but more general. We want to use it for getPosts
+// map allows us to map returned elemnts like in java 
 
 @Injectable({ providedIn: 'root' })
 export class PostService {
@@ -16,13 +18,22 @@ export class PostService {
 
     // This function lets us retrieve posts
     getPosts() {
-        // we want to rework this serve request to send a request to the server
         // need to susbscribe to the server, to receieve information
         // no need to store and unsubscribe because angular does it for us
         // The get here is of a generic type, and get chnages the json to ur data
-        this.http.get<{message: string, posts: Post[]}>('http://localhost:3000/api/posts')
-            .subscribe((postData) => {
-                this.posts = postData.posts;
+        // we can use the observables to convert the data we get back before it's assigned
+        this.http.get<{message: string, posts: any}>('http://localhost:3000/api/posts')
+            .pipe(map((postData) => {
+                return postData.posts.map(post => {
+                    return {
+                        title: post.title,
+                        content: post.content,
+                        id: post._id
+                    };
+                });
+            }))
+            .subscribe((convertedData) => {
+                this.posts = convertedData;
                 this.postsUpdated.next([...this.posts]);
             });
     }
