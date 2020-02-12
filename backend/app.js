@@ -45,12 +45,13 @@ app.post('/api/posts', (req, res, next) => {
             title: req.body.title,
             content: req.body.content
         });
-        post.save(); // Automatically writes to the DB we assigned, its plural
-        console.log(post);
-        //This is the status we send back to make sure the request doesn't hang
-        res.status(201).json({
-            message: "post added successfully"
+        post.save().then(createdPost => {
+            //This is the status we send back to make sure the request doesn't hang
+            res.status(201).json({
+                message: "post added successfully",
+                postId: createdPost._id
         });
+    });
 });
 
 // function says what to do for incoming request, we can add other arguements
@@ -60,8 +61,16 @@ app.get('/api/posts',(req, res, next) => {
         .then((documents) => {
             res.status(200).json({
                 message: 'post sent successfully',
-                posts: documents
+                posts: documents                        //documen ts will be porcessed int the service
         });        // returns all entries of posts, function passed executes once it's done
+    });
+});
+
+// for deleting posts we will send an id, the :id here is dynamic
+// Important that the ID here is sent as part of the URL
+app.delete('/api/posts/:id',(req, res, next) => {
+    Post.deleteOne({_id: req.params.id}).then(result => {
+        res.status(200).json({message: "post deleted"});
     });
 });
 

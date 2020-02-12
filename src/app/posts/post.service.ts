@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 // Subject is used for event emitting, but more general. We want to use it for getPosts
-// map allows us to map returned elemnts like in java 
+// map allows us to map returned elemnts like in java
 
 @Injectable({ providedIn: 'root' })
 export class PostService {
@@ -24,11 +24,11 @@ export class PostService {
         // we can use the observables to convert the data we get back before it's assigned
         this.http.get<{message: string, posts: any}>('http://localhost:3000/api/posts')
             .pipe(map((postData) => {
-                return postData.posts.map(post => {
+                return postData.posts.map(post => {     // used map on an array of posts
                     return {
+                        id: post._id,
                         title: post.title,
                         content: post.content,
-                        id: post._id
                     };
                 });
             }))
@@ -49,10 +49,25 @@ export class PostService {
 
         // sending a post request so use .post
         // send the data in the post parameters
-        this.http.post<{message: string}>('http://localhost:3000/api/posts', tempPost)
+        this.http.post<{message: string, postId: string}>('http://localhost:3000/api/posts', tempPost)
             .subscribe((responseData) => {
                 console.log(responseData.message);
+                // here we will handle the first postID error
+                const id = responseData.postId;
+                tempPost.id = id;
                 this.posts.push(tempPost);
+                this.postsUpdated.next([...this.posts]);
+            });
+    }
+
+    deletePost(postId: string) {
+        // see the plus sign here to make it part of the url for the request
+        // tslint:disable-next-line: quotemark
+        this.http.delete("http://localhost:3000/api/posts/" + postId)
+            .subscribe((responseData) => {
+                // filter out the deleted posts and update posts array then send it out
+                const upDatedPosts = this.posts.filter(post => post.id !== postId);
+                this.posts = upDatedPosts;
                 this.postsUpdated.next([...this.posts]);
             });
     }
