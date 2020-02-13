@@ -2,10 +2,7 @@
 <app-header></app-header>
 
 <main>
-<!-- We can hook our component in this general html file -->
-<!-- Here we connet the output with the push post function, event connecting-->
-<app-post-create></app-post-create>
-<app-post-list ></app-post-list>
+    <!-- We can hook our component in this general html file -->
+    <!-- This is now a hook for the agular content -->
+    <router-outlet></router-outlet>
 </main>
-
-<router-outlet></router-outlet>
