@@ -20,7 +20,7 @@ mongoose.connect('mongodb+srv://skazi:tv1eqMzx89kkrn8O@cluster0-z3gbd.mongodb.ne
         console.log('Connection Error');
     });
 
-// This lets us parse data from a request, package needs to be installed
+// This lets us parse data from a request, package needs to be installed via bodyParser
 app.use(bodyParser.json());
 
 // Middleware for allowing access to our resources
@@ -33,7 +33,7 @@ app.use((req, res, next) => {
     );
     res.setHeader(
       "Access-Control-Allow-Methods",
-      "GET, POST, PATCH, DELETE, OPTIONS"
+      "GET, POST, PATCH, PUT, DELETE, OPTIONS"
     );
     next();
   });
@@ -53,6 +53,19 @@ app.post('/api/posts', (req, res, next) => {
         });
     });
 });
+
+// Edits a post
+app.put('/api/posts/:id',(req, res, next) => {
+    const post = new Post({
+        _id: req.body.id,
+        title: req.body.title,
+        content: req.body.content
+    });
+    Post.updateOne({_id: req.params.id}, post).then(result => {
+        console.log(result);
+        res.status(200).json({message: "update successful"});
+    });
+})
 
 // function says what to do for incoming request, we can add other arguements
 // Now api/posts is how we will reach our code

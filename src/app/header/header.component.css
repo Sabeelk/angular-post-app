@@ -8,6 +8,7 @@ a {
     text-decoration: none;
     color: white;
 }
+/* flex pushes the two things away from each other */
 .spacer {
     flex: 1 1 auto;
 }
