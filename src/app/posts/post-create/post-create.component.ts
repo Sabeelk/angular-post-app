@@ -15,22 +15,19 @@ export class PostCreateComponent implements OnInit {
   postContent = '';
   private mode = 'create';
   private postId: string;
-  editPost: Post;
+  post: Post;
 
   constructor(public postService: PostService, public route: ActivatedRoute) {}
 
   // for all built in observables like paramMap do not need to be destroyed
   ngOnInit() {
-    // component doesn't change when the route chnages to edit
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has('postId')) {
         this.mode = 'edit';
-        this.postId = paramMap.get('postId'); // isolate the postId
+        this.postId = paramMap.get('postId');
         this.postService.getPost(this.postId).subscribe(postData => {
-          this.editPost = {id: postData._id, title: postData.title, content: postData.content};
+          this.post = {id: postData._id, title: postData.title, content: postData.content};
         });
-        this.postTitle = this.editPost.title;
-        this.postContent = this.editPost.content;
       } else {
         this.mode = 'create';
         this.postId = null;
