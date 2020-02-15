@@ -39,16 +39,23 @@ export class PostService {
     }
 
     // method for getting a single post
-    // Does not need to call to the database because the posts shoudl already be loaded
+    // Does not need to call to the database because the posts should already be loaded
     // just search the array of current posts
     getPost(id: string) {
-        return {...this.posts.find(p => p.id === id)};  // check all posts return post
-    }
+        return this.http.get<{ _id: string; title: string; content: string }>(
+            'http://localhost:3000/api/posts/' + id);
+      }
 
     updatePost(inputId: string, inputTitle: string, inputContent: string) {
         const post: Post = { id: inputId, title: inputTitle, content: inputContent};
         this.http.put('http://localhost:3000/api/posts/' + inputId, post)
-            .subscribe(rData => console.log(rData));
+            .subscribe(rData => {
+                const newPosts = [...this.posts];
+                const oldPostIndex = newPosts.findIndex(p => p.id === post.id);
+                newPosts[oldPostIndex] = post;
+                this.posts = newPosts;
+                this.postsUpdated.next([...this.posts]);
+            });
     }
 
     // This function listens anytime the Subject is updated and emits it

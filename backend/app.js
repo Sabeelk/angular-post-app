@@ -57,12 +57,11 @@ app.post('/api/posts', (req, res, next) => {
 // Edits a post
 app.put('/api/posts/:id',(req, res, next) => {
     const post = new Post({
-        _id: req.body.id,
+        _id: req.body.id,      // update recognizes overwriting the id
         title: req.body.title,
         content: req.body.content
     });
     Post.updateOne({_id: req.params.id}, post).then(result => {
-        console.log(result);
         res.status(200).json({message: "update successful"});
     });
 })
@@ -75,7 +74,17 @@ app.get('/api/posts',(req, res, next) => {
             res.status(200).json({
                 message: 'post sent successfully',
                 posts: documents                        //documen ts will be porcessed int the service
-        });        // returns all entries of posts, function passed executes once it's done
+        });     // returns all entries of posts, function passed executes once it's done
+    });
+});
+
+app.get('/api/posts/:id',(req, res, next) => {
+    Post.findById(req.params.id).then(post => {
+        if (true) {
+            res.status(200).json(post);
+        } else {
+            res.status(404).json({message: "Post not found"});
+        }
     });
 });
 
