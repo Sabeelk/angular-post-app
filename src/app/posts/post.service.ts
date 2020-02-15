@@ -5,6 +5,8 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 // Subject is used for event emitting, but more general. We want to use it for getPosts
 // map allows us to map returned elemnts like in java
+import { Router } from '@angular/router';
+// Router can be used in the service to force page change
 
 @Injectable({ providedIn: 'root' })
 export class PostService {
@@ -14,7 +16,7 @@ export class PostService {
     private postsUpdated = new Subject<Post[]>();
 
     // We must inject the Http Client in order ot use it in the service
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient, private router: Router) {}
 
     // This function lets us retrieve posts
     getPosts() {
@@ -55,6 +57,7 @@ export class PostService {
                 newPosts[oldPostIndex] = post;
                 this.posts = newPosts;
                 this.postsUpdated.next([...this.posts]);
+                this.router.navigate(['/']);
             });
     }
 
@@ -77,6 +80,7 @@ export class PostService {
                 tempPost.id = id;
                 this.posts.push(tempPost);
                 this.postsUpdated.next([...this.posts]);
+                this.router.navigate(['/']);
             });
     }
 

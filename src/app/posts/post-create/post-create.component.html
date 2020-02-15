@@ -1,6 +1,7 @@
 <mat-card>
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
     <!-- postForm allows us to have access to the form object -->
-    <form (submit)="onSavePost(postForm)" #postForm="ngForm">
+    <form (submit)="onSavePost(postForm)" #postForm="ngForm" *ngIf="!isLoading">
     <mat-form-field>
         <!-- We can also add mimnlength to force a length for the textarea -->
         <textarea  rows="1" matInput name="postTitle" [ngModel]="post?.title" required #postTitle="ngModel"

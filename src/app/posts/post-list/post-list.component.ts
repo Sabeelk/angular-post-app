@@ -15,11 +15,13 @@ export class PostListComponent implements OnInit, OnDestroy {
   posts: Post[] = [];
   // The subscription needs to be an object sp we can unsibscribe later
   private postSub: Subscription;
+  isLoading = false;
 
   // The Service should be declared in the constructor
   constructor(public postService: PostService) {}
 
   ngOnInit() {
+    this.isLoading = true;
     // postService is now some invisible member variable and need to be called inititally
     this.postService.getPosts();
     // This subscribe function takes a function argument that gets executed whenever new data is emitted
@@ -27,6 +29,7 @@ export class PostListComponent implements OnInit, OnDestroy {
     // subscriptions we create should be destroyed when we the component is not live
     this.postSub = this.postService.getPostsUpdatedListener()
       .subscribe( (posts: Post[]) => {
+        this.isLoading = false;
         this.posts = posts;
       });
   }

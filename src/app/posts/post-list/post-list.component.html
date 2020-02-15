@@ -1,6 +1,7 @@
 <!-- Using an *ngFor to show all the posts  -->
 <!-- Using the *ngIf lecture for conditional if there are no posts -->
-<mat-accordion multi="true" *ngIf="posts.length > 0">
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<mat-accordion multi="true" *ngIf="posts.length > 0 && !isLoading">
     <mat-expansion-panel *ngFor="let post of posts">
         <mat-expansion-panel-header>
             {{ post.title }}
