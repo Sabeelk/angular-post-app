@@ -1,7 +1,7 @@
 // App module is used for declaring the modules, see the declaration
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MatInputModule, MatCardModule,
   MatButtonModule, MatToolbarModule, MatExpansionModule,
@@ -26,7 +26,6 @@ import { PostService } from './posts/post.service';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule,
     BrowserAnimationsModule,
     MatInputModule,
     MatCardModule,
@@ -34,7 +33,8 @@ import { PostService } from './posts/post.service';
     MatToolbarModule,
     MatExpansionModule,
     HttpClientModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    ReactiveFormsModule
   ],
   providers: [PostService],
   bootstrap: [AppComponent]
