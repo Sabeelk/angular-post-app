@@ -123,5 +123,8 @@
       }
     }
   },
-  "defaultProject": "angApp"
+  "defaultProject": "angApp",
+  "cli": {
+    "analytics": false
+  }
 }
