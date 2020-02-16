@@ -8,6 +8,10 @@
             placeholder = "Post Title"></textarea>
         <mat-error *ngIf="postTitle.invalid"> Title cannot be empty </mat-error> 
     </mat-form-field>
+    <div>
+        <button mat-stroked-button (click)="filePicker.click()">Add Image</button>
+        <input type='file' #filePicker>
+    </div>
     <mat-form-field>
         <!-- The value property can be bound to variable that we define -->
         <!-- the # symbol used to create a reference, which can be passed in to grab the property -->
