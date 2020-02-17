@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { PostService } from '../post.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';   // lets us know info about current route
 import { Post } from '../post.model';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, AsyncValidator } from '@angular/forms';
+import { mimeType } from './type.mime-type.validator';
 // Remember that we had the wrong event emitter above
 // We need bot the EventEmitter asnd the Output to be able to use them in this component
 
@@ -29,7 +30,8 @@ export class PostCreateComponent implements OnInit {
         Validators.minLength(3)]}),
       content: new FormControl(null, {validators: [Validators.required,
         Validators.minLength(3)]}),
-      image: new FormControl(null, {validators: [Validators.required]}),
+      image: new FormControl(null, {validators: [Validators.required],
+      asyncValidators: [mimeType]}),
     });
 
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
@@ -73,6 +75,7 @@ export class PostCreateComponent implements OnInit {
   // the button logic will be run by this post
   // The form is passed and now angular is handling the post logic
   onSavePost() {
+    console.log('Hello World');
     // We check for invalidity before submitting the form
     if (this.form.invalid) {
       return;

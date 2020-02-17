@@ -69,6 +69,7 @@ export class PostService {
     // This function is called to add posts to the posts array
     addPost(addTitle: string, addContent: string) {
         const tempPost: Post = { id: null, title: addTitle, content: addContent};
+        console.log(tempPost.id);
 
         // sending a post request so use .post
         // send the data in the post parameters
