@@ -5,31 +5,8 @@ const express = require('express');
 
 const router = express.Router();
 
-const MIME_TYPE_MAP = {
-    'image/png': 'png',
-    'image/jpeg': 'png',
-    'image/jpg': 'jng',
-}
-
-// insitialize multer storage, where and how to store things
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        const isValid = MIME_TYPE_MAP[mimetype];
-        let error = new Error("Invalid mime type");
-        if (isValid) {
-            error = null;
-        }
-        cb(error, "backend/images"); // Where the file will be stored, relative to the server.js file
-    },
-    filename: (req, file, cb) => {
-        const name = file.originalname.toLowercase().split(' ').join('-');
-        const ext = MIME_TYPE_MAP[file.mimetype];
-        cb(null, name + '-' + Date.now() + '.' + ext);
-    },
-});
-
 //This will handle adding a post, it will simply display it for now
-router.post('', multer(storage).single("image"), (req, res, next) => {
+router.post('', (req, res, next) => {
     // we first make the new Post object from the mongoose schema
     const post = new Post({
         title: req.body.title,
@@ -39,8 +16,9 @@ router.post('', multer(storage).single("image"), (req, res, next) => {
         //This is the status we send back to make sure the request doesn't hang
         res.status(201).json({
             message: "post added successfully",
-            postId: createdPost._id
+            postId: createdPost._id,
         });
+        console.log(createdPost._id);
     });
 });
 

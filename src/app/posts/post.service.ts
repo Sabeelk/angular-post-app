@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 // Subject is used for event emitting, but more general. We want to use it for getPosts
 // map allows us to map returned elemnts like in java
 import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 // Router can be used in the service to force page change
 
 @Injectable({ providedIn: 'root' })
@@ -67,23 +68,17 @@ export class PostService {
     }
 
     // This function is called to add posts to the posts array
-    addPost(addTitle: string, addContent: string) {
-        const tempPost: Post = { id: null, title: addTitle, content: addContent};
-        console.log(tempPost.id);
-
-        // sending a post request so use .post
-        // send the data in the post parameters
-        this.http.post<{message: string, postId: string}>('http://localhost:3000/api/posts', tempPost)
-            .subscribe((responseData) => {
-                console.log(responseData.message);
-                // here we will handle the first postID error
-                const id = responseData.postId;
-                tempPost.id = id;
-                this.posts.push(tempPost);
-                this.postsUpdated.next([...this.posts]);
-                this.router.navigate(['/']);
-            });
-    }
+    addPost(title: string, content: string, image: File) {
+        const post: Post = { id: null, title, content };
+        this.http.post<{ message: string, postId: string }>('http://localhost:3000/api/posts', post)
+          .subscribe(responseData => {
+            const id = responseData.postId;
+            responseData.postId = id;
+            this.posts.push(post);
+            this.postsUpdated.next([...this.posts]);
+            this.router.navigate(['/']);
+          });
+      }
 
     deletePost(postId: string) {
         // see the plus sign here to make it part of the url for the request

@@ -10,13 +10,6 @@
             placeholder="Post Title">
         <mat-error *ngIf="form.get('title').invalid"> Title cannot be empty </mat-error> 
     </mat-form-field>
-    <div>
-        <button mat-stroked-button (click)="filePicker.click()">Add Image</button>
-        <input type='file' #filePicker (change)="onImagePicked($event)">
-    </div>
-    <div class="image-preview" *ngIf="imagePreview !== '' && imagePreview && form.get('image').valid">
-        <img [src]="imagePreview" [alt]="form.value.title">
-    </div>
     <mat-form-field>
         <!-- The value property can be bound to variable that we define -->
         <!-- the # symbol used to create a reference, which can be passed in to grab the property -->

@@ -3,7 +3,6 @@ import { PostService } from '../post.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';   // lets us know info about current route
 import { Post } from '../post.model';
 import { FormGroup, FormControl, Validators, AsyncValidator } from '@angular/forms';
-import { mimeType } from './type.mime-type.validator';
 // Remember that we had the wrong event emitter above
 // We need bot the EventEmitter asnd the Output to be able to use them in this component
 
@@ -30,8 +29,6 @@ export class PostCreateComponent implements OnInit {
         Validators.minLength(3)]}),
       content: new FormControl(null, {validators: [Validators.required,
         Validators.minLength(3)]}),
-      image: new FormControl(null, {validators: [Validators.required],
-      asyncValidators: [mimeType]}),
     });
 
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
@@ -59,31 +56,18 @@ export class PostCreateComponent implements OnInit {
     });
   }
 
-  onImagePicked(event: Event) {
-    // create a file object that was inputted
-    // files is actually an array so we only want the first
-    const file = (event.target as HTMLInputElement).files[0];
-    this.form.patchValue({image: file});  // sets once control of the form group
-    this.form.get('image').updateValueAndValidity();  // runs validator on input
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.imagePreview = reader.result as string;
-    };
-    reader.readAsDataURL(file);
-  }
-
   // the button logic will be run by this post
   // The form is passed and now angular is handling the post logic
   onSavePost() {
     console.log('Hello World');
     // We check for invalidity before submitting the form
-    if (this.form.invalid) {
-      return;
-    }
+    // if (this.form.invalid) {
+    //   return;
+    // }
     this.isLoading = true;
     if (this.mode === 'create') {
       // On button press, the event will emit the post out
-      this.postService.addPost(this.form.value.title, this.form.value.content);
+      this.postService.addPost(this.form.value.title, this.form.value.content, this.form.value.image);
     } else {
       this.postService.updatePost(this.postId, this.form.value.title, this.form.value.content);
     }
