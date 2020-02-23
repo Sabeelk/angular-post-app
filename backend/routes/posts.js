@@ -39,6 +39,7 @@ router.put('/:id',(req, res, next) => {
 router.get('',(req, res, next) => {
     const pageSize = +req.query.pagesize; // must be a number
     const currentPage = +req.query.page;
+    let fetchedPosts;
     const postQuery = Post.find();
     if (pageSize && currentPage) {
         postQuery
@@ -47,10 +48,15 @@ router.get('',(req, res, next) => {
     }
     postQuery
         .then((documents) => {
+            fetchedPosts = documents;
+            return Post.count();
+        })
+        .then(count => {
             res.status(200).json({
                 message: 'post sent successfully',
-                posts: documents                        //documen ts will be porcessed int the service
-        });     // returns all entries of posts, function passed executes once it's done
+                posts: fetchedPosts,
+                numPosts: count               
+    });
     });
 });
 

@@ -18,8 +18,9 @@ export class PostListComponent implements OnInit, OnDestroy {
   private postSub: Subscription;
   isLoading = false;
   // Variables used to hold information for the paginator module
-  totalPosts = 10;
+  totalPosts = 0;
   postsPerPage = 3;
+  currentPage = 1;
   pageSizeOption = [2, 3, 5];
 
   // The Service should be declared in the constructor
@@ -28,19 +29,25 @@ export class PostListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.isLoading = true;
     // postService is now some invisible member variable and need to be called inititally
-    this.postService.getPosts();
+    this.postService.getPosts(this.postsPerPage, this.currentPage);
     // This subscribe function takes a function argument that gets executed whenever new data is emitted
     // subscribe takes the posts as an argument because it recieves the posts array from the service in the next()
     // subscriptions we create should be destroyed when we the component is not live
     this.postSub = this.postService.getPostsUpdatedListener()
-      .subscribe( (posts: Post[]) => {
-        this.isLoading = false;
-        this.posts = posts;
+      .subscribe( (postData: {posts: Post[], postCount: number}) => {
+        this.isLoading = false;               // once subcription return the loading bar leaves
+        this.totalPosts = postData.postCount;
+        this.posts = postData.posts;
       });
   }
 
   onPageChange(pageData: PageEvent) {
-    console.log(pageData);
+    this.isLoading = true;
+    // values are updating as we click the paginator
+    this.currentPage = pageData.pageIndex + 1;  // The page index starts at 0
+    this.postsPerPage = pageData.pageSize;
+
+    this.postService.getPosts(this.postsPerPage, this.currentPage);
   }
 
   ngOnDestroy() {
@@ -49,7 +56,10 @@ export class PostListComponent implements OnInit, OnDestroy {
   }
 
   onDelete(postId: string) {
-    this.postService.deletePost(postId);
+    this.isLoading = true;
+    this.postService.deletePost(postId).subscribe(() => {
+      this.postService.getPosts(this.postsPerPage, this.currentPage);
+    });
   }
 
 }
