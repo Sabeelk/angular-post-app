@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
 import { Post } from '../post.model';
 import { PostService } from '../post.service';
 // We want this to be the input for the event so import input
@@ -16,6 +17,10 @@ export class PostListComponent implements OnInit, OnDestroy {
   // The subscription needs to be an object sp we can unsibscribe later
   private postSub: Subscription;
   isLoading = false;
+  // Variables used to hold information for the paginator module
+  totalPosts = 10;
+  postsPerPage = 3;
+  pageSizeOption = [2, 3, 5];
 
   // The Service should be declared in the constructor
   constructor(public postService: PostService) {}
@@ -32,6 +37,10 @@ export class PostListComponent implements OnInit, OnDestroy {
         this.isLoading = false;
         this.posts = posts;
       });
+  }
+
+  onPageChange(pageData: PageEvent) {
+    console.log(pageData);
   }
 
   ngOnDestroy() {

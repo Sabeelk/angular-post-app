@@ -11,10 +11,10 @@ const postRoutes = require('./routes/posts');
 // This connections returns a promise, handle it with then
 mongoose.connect('mongodb+srv://skazi:tv1eqMzx89kkrn8O@cluster0-z3gbd.mongodb.net/post-app?retryWrites=true&w=majority')
     .then(() => {
-        console.log('Connection Successful');
+        console.log('***Connection Successful');
     })
     .catch(() => {
-        console.log('Connection Error');
+        console.log('***Connection Error');
     });
 
 // This lets us parse data from a request, package needs to be installed via bodyParser

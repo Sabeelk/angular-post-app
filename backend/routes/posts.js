@@ -37,7 +37,15 @@ router.put('/:id',(req, res, next) => {
 // function says what to do for incoming request, we can add other arguements
 // Now api/posts is how we will reach our code
 router.get('',(req, res, next) => {
-    Post.find()
+    const pageSize = +req.query.pagesize; // must be a number
+    const currentPage = +req.query.page;
+    const postQuery = Post.find();
+    if (pageSize && currentPage) {
+        postQuery
+            .skip(pageSize * (currentPage - 1)) // skips # of elemnts
+            .limit(pageSize);   // limits the number we selected
+    }
+    postQuery
         .then((documents) => {
             res.status(200).json({
                 message: 'post sent successfully',
